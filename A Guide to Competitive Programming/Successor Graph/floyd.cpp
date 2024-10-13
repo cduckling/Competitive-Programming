@@ -6,8 +6,8 @@ using namespace std;
 
 typedef long long ll;
 
-int floyd(const vector<int>& adj) {
-    int t = adj[0], h = adj[adj[0]];
+int floyd(int v, const vector<int>& adj) {
+    int t = adj[v], h = adj[adj[v]];
 
     while (t != h) {
         t = adj[t]; h = adj[adj[h]];
@@ -16,14 +16,36 @@ int floyd(const vector<int>& adj) {
     return t;
 }
 
+void dfs(int v, int col, vector<int>& c, const vector<int>& out, const vector<vector<int>>& in) {
+    if (c[v]) {
+        return;
+    } else {
+        c[v] = col;
+
+        dfs(out[v], col, c, out, in);
+        for (int i : in[v]) dfs(i, col, c, out, in);
+    }
+}
+
 int main() {
     io
 
     int n {}; cin >> n;
 
-    vector<int> adj (n); for (int i {0}; i < n; ++i) cin >> adj[i];
+    vector<int> out (n); vector<vector<int>> in (n);
 
-    cout << floyd(adj);
+    for (int i {0}; i < n; ++i) {
+        cin >> out[i]; in[out[i]].push_back(i);
+    }
+
+    vector<int> c (n); int col = 0; for (int i {0}; i < n; ++i) {
+        if (!c[i]) {
+            ++col;
+            dfs(i, col, c, out, in);
+        }
+    }
+
+    for (int i : c) cout << i << " " << floyd(i, out) << "\n";
 
     return 0;
 }
