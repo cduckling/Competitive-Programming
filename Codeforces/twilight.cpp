@@ -46,12 +46,14 @@ void solve() {
     vi a (n + 1); for (ll i = 1; i <= n; i++) cin >> a[i];
 
     vvpii dp (n + 1, vpii (1<<17, {inf, 0})); for (ll i = 1; i < 60; i++) {
-        ll b = 0; for (const ll j : fac[i]) b += 1<<p[j]; dp[1][b].first = abs(a[1] - i), dp[1][b].second = i;
+        ll b = 0; for (const ll j : fac[i]) b += (1<<p[j]);
+
+        if (abs(a[1] - i) < dp[1][b].first) dp[1][b].first = abs(a[1] - i), dp[1][b].second = i;
     }
 
     for (ll i = 2; i <= n; i++) {
         for (ll j = 1; j < 60; j++) {
-            ll b = 0; for (const ll k : fac[j]) b += 1<<p[k];
+            ll b = 0; for (const ll k : fac[j]) b += (1<<p[k]);
 
             const ll s = (1<<17) - 1 - b;
 
