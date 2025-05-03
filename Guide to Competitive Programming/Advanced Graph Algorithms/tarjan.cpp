@@ -5,73 +5,82 @@
 #include <queue>
 #include <stack>
 #include <algorithm>
-#include <cmath>
 #include <numeric>
 using namespace std;
 
+#define tc int t; cin >> t; while (t--) solve();
 #define io ios_base::sync_with_stdio(false); cin.tie(NULL);
-#define pb(i) push_back(i);
-#define inf 1e18;
+#define all(a) (a).begin(), (a).end()
+#define pb(i) push_back(i)
+#define eb(i) emplace_back(i)
+#define ceil(a, b) ((a + b - 1) / b)
+#define inf (ll) 1e18
+#define fail cout << -1 << "\n"; return;
+#define fir first
+#define sec second
 
 typedef long long ll;
-typedef pair<int, int> pii;
-typedef tuple<int, int, int> tiii;
 typedef vector<int> vi;
 typedef vector<vector<int>> vvi;
-typedef vector<pair<int, int>> vpii;
-typedef vector<tuple<int, int, int>> vtiii;
+typedef vector<vector<vector<int>>> vvvi;
+typedef vector<double> vd;
+typedef vector<vector<double>> vvd;
+typedef vector<vector<vector<double>>> vvvd;
 typedef vector<bool> vb;
+typedef vector<vector<bool>> vvb;
+typedef vector<vector<vector<bool>>> vvvb;
+typedef pair<int, int> pii;
+typedef vector<pair<int, int>> vpii;
+typedef vector<vector<pair<int, int>>> vvpii;
+typedef vector<vector<vector<pair<int, int>>>> vvvpii;
+typedef tuple<int, int, int> tii;
+typedef vector<tuple<int, int, int>> vtii;
+typedef vector<vector<tuple<int, int, int>>> vvtii;
+typedef vector<vector<vector<tuple<int, int, int>>>> vvvtii;
 typedef set<int> si;
-typedef map<int, int> mi;
-typedef map<int, vector<int>> mvi;
-typedef map<int, pair<int, int>> mpii;
-typedef map<int, bool> mb;
+typedef set<pair<int, int>> spii;
+typedef vector<set<int>> vsi;
+typedef vector<vector<set<int>>> vvsi;
+typedef map<int, int> mii;
+typedef map<int, bool> mib;
+typedef map<int, double> mid;
+typedef vector<map<int, int>> vmii;
+typedef vector<map<int, double>> vmid;
+typedef vector<map<int, bool>> vmib;
 
-void dfs(const int& v, const int& p, const vvi& adj, vi& vis, vector<mi>& tree) {
-    vis[v] = true;
+void dfs(const int ver, const int par, vb& vis, vi& dep, vi& dp, vpii& bridge, const vvi& adj) {
+    vis[ver] = true;
 
-    for (ll i : adj[v]) {
-        if (i == p || !vis[i]) {
-            tree[v][i] = 1;
-            if (!vis[i]) dfs(i, v, adj, vis, tree);
-        } else {
-            if (!tree[i][v]) {
-                tree[v][i] = -2;
+    for (const int i : adj[ver]) {
+        if (i == par) continue;
+
+        if (vis[i]) {
+            if (dep[i] < dep[ver]) {
+                dp[ver]++;
             } else {
-                tree[v][i] = -1;
+                dp[ver]--;
             }
+        } else {
+            dep[i] = dep[ver] + 1; dfs(i, ver, vis, dep, dp, bridge, adj); dp[ver] += dp[i];
         }
     }
-}
 
-void dp(const int& v, const int& p, vector<mi>& tree, vi& b) {
-    vi c {}; for (auto i : tree[v]) if (i.first != p && i.second == 1) {
-        c.pb(i.first);
-        dp(i.first, v, tree, b);
-    }
-
-    for (auto i : tree[v]) b[v] += (i.second == -2);
-    for (auto i : tree[v]) b[v] -= (i.second == -1);
-
-    if (!c.empty()) for (ll i : c) b[v] += b[i];
+    if (ver != 1 && dp[ver] == 0) bridge.emplace_back(ver, par);
 }
 
 int main() {
     io
 
-    int n {}, m {}; cin >> n >> m;
+    int n, m; cin >> n >> m;
 
-    vvi adj (n); for (int i {0}; i < m; ++i) {
-        int u {}, v {}; cin >> u >> v;
-
-        adj[u].pb(v); adj[v].pb(u);
+    vvi adj (n + 1); for (int i = 0; i < m; i++) {
+        int u, v; cin >> u >> v;
+        adj[u].pb(v), adj[v].pb(u);
     }
 
-    vector<mi> tree (n); vi vis (n); dfs(0, -1, adj, vis, tree);
+    vb vis (n + 1); vi dep (n + 1), dp (n + 1); vpii bridge; dfs(1, 0, vis, dep, dp, bridge, adj);
 
-    vi b (n); dp(0, -1, tree, b);
-
-    for (int i {0}; i < n; ++i) if (!b[i]) cout << i << " ";
+    for (const pii i : bridge) cout << i.fir << " " << i.sec << "\n";
 
     return 0;
 }
