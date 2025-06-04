@@ -4,9 +4,9 @@
 #include <sstream>
 using namespace std;
 
-int n {};
+int n;
 
-pair<int, int> bessie {}; vector<pair<int, int>> moves {}; vector<vector<set<pair<int, int>>>> adj (25, vector<set<pair<int, int>>> (25));
+pair<int, int> bessie; vector<pair<int, int>> moves; vector<vector<set<pair<int, int>>>> adj (25, vector<set<pair<int, int>>> (25));
 
 vector<vector<string>> maze;
 
@@ -30,12 +30,12 @@ bool visited[25][25]; void dfs(pair<int, int> a, pair<int, int> c) {
     }
 }
 
-set<vector<vector<char>>> configurations {};
+set<vector<vector<char>>> configurations;
 bool won(vector<vector<char>>& game) {
-    for (int i {0}; i < 3; ++i) {
-        string a {}, b {};
+    for (int i = 0; i < 3; ++i) {
+        string a, b;
 
-        for (int j {0}; j < 3; ++j) {
+        for (int j = 0; j < 3; ++j) {
             a += game[i][j];
             b += game[j][i];
         }
@@ -45,15 +45,15 @@ bool won(vector<vector<char>>& game) {
         }
     }
 
-    string a {}, b {};
+    string a, b;
     a += game[0][0]; a += game[1][1]; a += game[2][2];
     b += game[0][2]; b += game[1][1]; b += game[2][0];
 
     return a == "MOO" || a == "OOM" || b == "MOO" || b == "OOM";
 }
 bool finished(vector<vector<char>>& game) {
-    for (int i {0}; i < 3; ++i) {
-        for (int j {0}; j < 3; ++j) {
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
             if (game[i][j] == '.') {
                 return false;
             }
@@ -67,8 +67,8 @@ void recurse(pair<int, int> cell, vector<vector<set<pair<int, int>>>> adj_, vect
     string move {maze[cell.first][cell.second]};
 
     if (move != "BBB") {
-        stringstream s {}; s << move[0] << " " << move[1] << " " << move[2];
-        char a {}; int b {}, c {}; s >> a >> b >> c; --b; --c;
+        stringstream s; s << move[0] << " " << move[1] << " " << move[2];
+        char a; int b, c; s >> a >> b >> c; --b; --c;
 
         if (game[b][c] == '.') {
             game[b][c] = a;
@@ -102,9 +102,9 @@ void recurse(pair<int, int> cell, vector<vector<set<pair<int, int>>>> adj_, vect
 int main() {
     cin >> n;
 
-    vector<vector<string>> Maze (n, vector<string> (n, "")); for (int i {0}; i < n; ++i) {
-        for (int j {0}; j < n; ++j) {
-            char a {}, b {}, c {}; cin >> a >> b >> c;
+    vector<vector<string>> Maze (n, vector<string> (n, "")); for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            char a, b, c; cin >> a >> b >> c;
             Maze[i][j] += a; Maze[i][j] += b; Maze[i][j] += c;
 
             if (Maze[i][j] == "BBB") {
@@ -119,14 +119,14 @@ int main() {
 
     maze = Maze;
 
-    dfs(bessie, bessie); for (int i {0}; i < n; ++i) {
-        for (int j {0}; j < n; ++j) {
+    dfs(bessie, bessie); for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
             visited[i][j] = false;
         }
     } for (pair<int, int> move : moves) {
         dfs(move, move);
         for (int i {0}; i < n; ++i) {
-            for (int j {0}; j < n; ++j) {
+            for (int j = 0; j < n; ++j) {
                 visited[i][j] = false;
             }
         }
