@@ -53,7 +53,17 @@ struct SEGTREE {
     }
 
     SEGTREE(const vi& a) : SEGTREE(a.size()) {
-        for (int i = 0; i < n; i++) set(i, i, a[i]);
+        build(1, 0, n - 1, a);
+    }
+
+    void build(const int k, const int l, const int r, const vi& a){
+        if (l == r) {
+            t[k] = a[l];
+        } else {
+            build(2 * k, l,  (l + r) / 2, a), build(2 * k + 1, (l + r) / 2 + 1, r, a);
+
+            t[k] = t[2 * k] + t[2 * k + 1];
+        }
     }
 
     void set(const int l, const int r, const int val) {
