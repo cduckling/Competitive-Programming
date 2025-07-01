@@ -27,8 +27,6 @@ void solve() {
         ll prev = inf; for (ll j = i - 1; j > dp[i]; j--) time[i - j] -= min(prev, a[j]) - a[i], prev = min(prev, a[j]);
     }
 
-    //for (ll i = 1; i <= 2 * n; i++) cout << i << ": " << a[i] << ": " << dp[i] << "\n";
-
     for (ll i = 1; i <= n; i++) time[i] += time[i - 1]; for (ll i = 1; i <= n; i++) cout << time[i] + sum << "\n";
 }
 
