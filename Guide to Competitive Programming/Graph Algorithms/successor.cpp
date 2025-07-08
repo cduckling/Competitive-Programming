@@ -49,6 +49,12 @@ void dfs(const int ver, const int col, vi& vis, const vi& out, const vvi& in) {
     if (vis[ver]) return; vis[ver] = col; dfs(out[ver], col, vis, out, in); for (const int i : in[ver]) dfs(i, col, vis, out, in);
 }
 
+void dfs(const int ver, const int no, vi& dp, const vvi& in) {
+    vi c; for (const int i : in[ver]) if (i != no) c.pb(i), dfs(i, -1, dp, in);
+
+    dp[ver] = 1; for (const int i : c) dp[ver] += dp[i];
+}
+
 int main() {
     io
 
@@ -67,6 +73,8 @@ int main() {
         a = c[i][0]; while (a != b) a = out[a], b = out[b]; b = a;
         cycle[i].pb(a); a = out[a]; while (a != b) cycle[i].pb(a), a = out[a];
     }
+
+    vi dp (n + 1); for (int i = 1; i <= col; i++) for (int j = 0; j < cycle[i].size(); j++) dfs(cycle[i][j], cycle[i][(cycle[i].size() + j - 1) % cycle[i].size()], dp, in);
 
     return 0;
 }
