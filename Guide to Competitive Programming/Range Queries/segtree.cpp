@@ -47,7 +47,7 @@ struct SEGTREE {
             if (a % 2 == 1) val += t[a++];
             if (b % 2 == 0) val += t[b--];
 
-            a /= 2; b /= 2;
+            a /= 2, b /= 2;
         }
 
         return val;
@@ -65,11 +65,11 @@ int main() {
 
     int n, q; cin >> n >> q;
 
-    vi a (n); for (int i = 0; i < n; ++i) cin >> a[i];
+    vi a (n + 1); for (int i = 1; i <= n; ++i) cin >> a[i];
 
     SEGTREE g (a);
 
-    for (int i = 0; i < q; ++i) {
+    for (int i = 1; i <= q; ++i) {
         char c; cin >> c;
 
         if (c == '?') {
