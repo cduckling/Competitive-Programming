@@ -79,6 +79,10 @@ struct DSU {
     bool connected(const int u, const int v) {
         return root(u) == root(v);
     }
+
+    int size(const int v) {
+        return size[v];
+    }
 };
 
 int main() {
