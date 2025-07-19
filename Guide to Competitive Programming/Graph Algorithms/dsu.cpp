@@ -81,7 +81,7 @@ struct DSU {
     }
 
     int size(const int v) {
-        return sizes[v];
+        return sizes[root(v)];
     }
 };
 
