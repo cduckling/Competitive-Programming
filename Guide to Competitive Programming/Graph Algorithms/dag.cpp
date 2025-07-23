@@ -38,7 +38,7 @@ int main() {
         int u, v; cin >> u >> v; adj[u].pb(v);
     }
 
-    vi vis (n + 1), ts; for (int i = 1; i <= n; ++i) if (!vis[i]) dfs(i, vis, ts, adj); reverse(ts.begin(), ts.end()); for (const int i : ts) cout << i << " "; cout << "\n";
+    vi vis (n + 1), ts; for (int i = 1; i <= n; i++) if (!vis[i]) dfs(i, vis, ts, adj); reverse(ts.begin(), ts.end()); for (const int i : ts) cout << i << " "; cout << "\n";
 
     return 0;
 }
