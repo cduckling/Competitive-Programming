@@ -67,10 +67,14 @@ int main() {
 
     vi dist (n + 1, inf); dist[1] = 0;
 
+    vb vis (n + 1);
+
     priority_queue<pii> pq; pq.emplace(0, 1);
 
     while (!pq.empty()) {
         const int ver = pq.top().sec; pq.pop();
+
+        if (!vis[ver]) continue; vis[ver] = true;
 
         for (const pii i : adj[ver]) if (dist[ver] + i.sec < dist[i.fir]) {
             dist[i.fir] = dist[ver] + i.sec;
