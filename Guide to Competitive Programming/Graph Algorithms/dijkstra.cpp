@@ -17,7 +17,7 @@ using namespace std;
 #define all(a) (a).begin(), (a).end()
 #define pb(a) push_back(a)
 #define eb(a, b) emplace_back(a, b)
-#define inf (ll) 1e18
+#define inf 1e9
 #define fir first
 #define sec second
 
@@ -74,7 +74,7 @@ int main() {
     while (!pq.empty()) {
         const int ver = pq.top().sec; pq.pop();
 
-        if (!vis[ver]) continue; vis[ver] = true;
+        if (vis[ver]) continue; vis[ver] = true;
 
         for (const pii i : adj[ver]) if (dist[ver] + i.sec < dist[i.fir]) {
             dist[i.fir] = dist[ver] + i.sec;
