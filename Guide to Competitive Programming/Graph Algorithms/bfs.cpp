@@ -75,7 +75,7 @@ int main() {
         for (const int i : adj[ver]) if (!vis[i]) vis[i] = true, dist[i] = dist[ver] + 1, q.push(i);
     }
 
-    for (int i = 1; i <= n; i++) cout << dist[i] << " ";
+    for (int i = 1; i <= n; i++) cout << dist[i] << " "; cout << "\n";
 
     return 0;
 }
